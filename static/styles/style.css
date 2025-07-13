@@ -1,0 +1,93 @@
+
+h1 {
+    font-size: 2.5rem;        
+}
+
+p {
+    font-size: 1.2rem;
+    color: #555;
+    }
+
+.message-box
+{
+    display: inline-block;
+    text-align:left;
+    padding: 40px;
+    border-radius: 20px;
+    background-color: #2F3030;
+}
+
+input[type=text]
+{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+select
+{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+input[type=date]
+{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+input[type=time]
+{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+.container
+{
+    display: inline-block;
+  
+}
+
+input[type=button], input[type=submit] 
+{
+    background-color: #4e9c83;
+    border-radius: 12px;
+    width: 100%;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+
+#acc{
+    color: #FFFFFF;
+    font-weight: bold; 
+}
+
+label 
+{
+    color: #FFFFFF;
+    font-weight: bold;
+    
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3fefc;
+    text-align: center;
+    padding-top: 100px;
+    color: #4e9c83;
+}
+
