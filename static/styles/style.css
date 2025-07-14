@@ -1,59 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3fefc;
+    text-align: center;
+    padding-top: 100px;
+    color: #4e9c83;
+}
 
 h1 {
+    color: black;
     font-size: 2.5rem;        
+}    
+
+h2
+{
+    text-align: center;
 }
 
 p {
     font-size: 1.2rem;
-    color: #555;
-    }
+    color: black;
+  }
 
-.message-box
+.message-box    
 {
     display: inline-block;
     text-align:left;
     padding: 40px;
     border-radius: 20px;
-    background-color: #2F3030;
-}
+    background: #ffffff;
+    color: #4e9c83;
+    
+}    
 
-input[type=text]
-{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-}
 
+input[type=date],
+input[type=time],
+input[type=text],
 select
 {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
-}
+    border: 4px solid #4e9c83;
+    border-radius: 18px;
+    border-color: #4e9c83;
+}    
 
-input[type=date]
-{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-}
-
-input[type=time]
-{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-}
 
 .container
 {
     display: inline-block;
   
-}
+}    
 
 input[type=button], input[type=submit] 
 {
@@ -68,26 +67,18 @@ input[type=button], input[type=submit]
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
-  }
+  }  
 
 
 #acc{
-    color: #FFFFFF;
+
     font-weight: bold; 
-}
+    color: #4e9c83;
+}    
 
 label 
 {
-    color: #FFFFFF;
     font-weight: bold;
     
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f3fefc;
-    text-align: center;
-    padding-top: 100px;
-    color: #4e9c83;
-}
+}    
 

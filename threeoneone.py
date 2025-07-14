@@ -24,7 +24,7 @@ def run_selenium(user_location, accessibility_input, route_num, route_dir, stop_
     actions = ActionChains(browser)
     time.sleep(1)
     #Find and Select "Transit Windsor"
-    service_type = browser.find_element(By.ID, "mat-select-value-1")
+    service_type = browser.find_element(By.ID, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')
     service_type.click()
     service_type = browser.find_element(By.XPATH, "//*[@id='mat-option-35']/span")
     service_type.click()
