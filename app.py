@@ -15,12 +15,13 @@ def submit():
         user_location = request.form ["loc"]
         accessibility_input = request.form["accessibility"]
         print (accessibility_input)
+        complaint_reason = request.form["Complaint Type"]
         route_num = request.form["Route Number"] 
         route_dir = request.form["Route Direction"]
         stop_id = request.form ["stop_id"]
         incident_date_input = request.form["date"]
         incident_time_input = request.form ["time"]
-        threeOneOne.run_selenium(user_location, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input)
+        threeOneOne.run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input)
         return render_template("submit.html", route_num = route_num)
     else:
         home()

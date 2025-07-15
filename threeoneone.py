@@ -11,12 +11,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+
+from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 import logging
 
-def tab(actions):
-    actions.send_keys(Keys.TAB)
 
-def run_selenium(user_location, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input):
+
+def run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input):
     #Browser Application setup
     browser = webdriver.Chrome()
     browser.maximize_window()
@@ -24,12 +25,12 @@ def run_selenium(user_location, accessibility_input, route_num, route_dir, stop_
     actions = ActionChains(browser)
     time.sleep(1)
     #Find and Select "Transit Windsor"
-    service_type = browser.find_element(By.ID, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')
+    service_type = browser.find_element(By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')
     service_type.click()
     service_type = browser.find_element(By.XPATH, "//*[@id='mat-option-35']/span")
     service_type.click()
     time.sleep(1)
-    tab(actions)
+    actions.send_keys(Keys.TAB)
 
     #user_location = "Oulette Ave @ Park St E."
     location = browser.find_element(By.ID, "mat-input-0")
@@ -44,8 +45,25 @@ def run_selenium(user_location, accessibility_input, route_num, route_dir, stop_
     time.sleep(1)
     call_reason = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Complaint"]')
     call_reason.click()
-    tab(actions)
+    
+    #Its doing something weird so we need to click the body of the DOM to close the complaint window and "spawn" the "Reason for complaint"
+    browser.find_element(By.XPATH, ("//body")).click()
+    #Do a big scroll
+    scroll_origin = ScrollOrigin.from_element(location,0,-50)
+    actions.scroll_from_origin(scroll_origin,0,400)\
+    .perform()
+
+    wait =  WebDriverWait(browser, 20).until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
+    
+    #Reason for Complaing
+    complaint_reason_button = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')
+    actions.move_to_element(complaint_reason_button).perform()
+    complaint_reason_button.click()
     time.sleep(1)
+    complaint_reason = browser.find_element(By.XPATH, f'//span[@class="mat-option-text" and normalize-space(text())="{complaint_reason}"]')
+    complaint_reason.click()
+    actions.send_keys(Keys.ESCAPE)
+    time.sleep
 
     #Accessibility Issue
     accessibility_binary = browser.find_element(By.XPATH, '//mat-label[contains(text(), "accessibility")]/ancestor::mat-form-field//mat-select')
@@ -58,11 +76,11 @@ def run_selenium(user_location, accessibility_input, route_num, route_dir, stop_
     if accessibility_input == "Yes":
         accessibility_binary = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Yes"]')
         accessibility_binary.click()
-        tab(actions)
+        actions.send_keys(Keys.TAB)
     else:
         accessibility_binary = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="No"]')
         accessibility_binary.click()
-        tab(actions)
+        actions.send_keys(Keys.TAB)
 
     #Route Number
     route_number = browser.find_element(By.ID, "mat-select-8")
@@ -70,7 +88,7 @@ def run_selenium(user_location, accessibility_input, route_num, route_dir, stop_
     route_number_xpath = f'//span[@class="mat-option-text" and normalize-space(text())="{route_num}"]'
     route_number = browser.find_element(By.XPATH,route_number_xpath)
     route_number.click()
-    tab(actions)
+    actions.send_keys(Keys.TAB)
 
     #Route Direction
     route_direction = browser.find_element(By.ID, "mat-select-value-11")
@@ -78,12 +96,12 @@ def run_selenium(user_location, accessibility_input, route_num, route_dir, stop_
     route_direction_xpath = f'//span[@class="mat-option-text" and normalize-space(text())="{route_dir}"]'
     route_direction = browser.find_element(By.XPATH, route_direction_xpath)
     route_direction.click()
-    tab(actions)   
+    actions.send_keys(Keys.TAB)   
 
     #StopID
     stopID = browser.find_element(By.ID, "mat-input-2")
     stopID.send_keys(stop_id)
-    tab(actions)
+    actions.send_keys(Keys.TAB)
 
     #Incident Date
     print("DATE: ", incident_date_input)
@@ -98,15 +116,15 @@ def run_selenium(user_location, accessibility_input, route_num, route_dir, stop_
     actions.scroll_to_element(incident_date).perform()
     incident_date.click()
     incident_date.send_keys(incident_date_input) #Enter in reconfigured date
-    tab(actions)
+    actions.send_keys(Keys.TAB)
 
     #Incident Time
     incident_time = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Time of incident")]')
     actions.scroll_by_amount(0,3).perform()
     
     incident_time.send_keys(incident_time_input)
-    tab(actions)
-    tab(actions)
+    actions.send_keys(Keys.TAB)
+    actions.send_keys(Keys.TAB)
 
     time.sleep(5)
     print("Program Complete. The browser will close.")
