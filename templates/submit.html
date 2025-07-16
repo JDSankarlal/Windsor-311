@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Report Submitted</title>
+    <script src="https://kit.fontawesome.com/bb1c4b5a82.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,13 +29,59 @@
             font-size: 1.2rem;
             color: #555;
         }
+
+        /* Style all font awesome icons */
+        .fa, .fa-brands{
+        padding: 20px;
+        margin: 10px;
+        font-size: 30px;
+        width: 30px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 50%;
+        display: inline-block;
+                
+        }
+
+        /* Add a hover effect if you want */
+        .fa:hover {
+        opacity: 0.7;
+        }
+
+        .fa-brands:hover{
+            opacity: 0.7;
+        }
+        /* Set a specific color for each brand */
+
+        /* Facebook */
+        .fa-facebook {
+        background: #3B5998;
+        color: white;
+        }
+
+        /* Twitter */
+        .fa-twitter {
+        background: #55ACEE;
+        color: white;
+        }
+
+        .fa-discord
+        {
+            background: #4e9c83;
+            color: white;     
+        }
+
     </style>
 </head>
+
 <body>
     <div class="message-box">
         <h1>Report Submitted!</h1>
-        <p>It looks like you had an issue on the {{route_num}}!</p>
-        <p>Thank you for helping improve transit service in Windsor.</p>
+        <p>{{first_name_input}}, it looks like you had an issue on the {{route_num}}.</p>
+        <p>Thank you for helping improve transit service in Windsor. Why not stay in touch?</p>
+        <a href="#" i class="fa fa-facebook"></a>
+        <a href="#" i class="fa fa-twitter"></a>
+        <a href = '#' i class = "fa-brands fa-discord"></a>
     </div>
 </body>
 </html>
