@@ -14,7 +14,7 @@ import logging
 
 
 
-def run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input):
+def run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input, first_name_input, last_name_input):
     #Browser Application setup
     browser = webdriver.Chrome()
     browser.maximize_window()
@@ -122,6 +122,16 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     incident_time.send_keys(incident_time_input)
     actions.send_keys(Keys.TAB)
     actions.send_keys(Keys.TAB)
+
+    #Submit Name & Email
+    first_name = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "First Name")]')
+    actions.move_to_element(first_name).perform()
+    first_name.send_keys(first_name_input)
+
+    #Submit Name & Email
+    last_name = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Last Name")]')
+    actions.move_to_element(last_name).perform()
+    first_name.send_keys(last_name_input)
 
     time.sleep(5)
     print("Program Complete. The browser will close.")
