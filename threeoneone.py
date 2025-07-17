@@ -14,13 +14,13 @@ import logging
 
 def run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input, first_name_input, last_name_input):
     #Browser Application setup
-    browser = webdriver.Chrome()
+    #browser = webdriver.Chrome()
     
-    #options = Options()
-    #options.add_argument("--headless")
-    #options.add_argument("--no-sandbox")
-    #options.add_argument("--disable-gpu")
-    #browser = webdriver.Chrome(options=options)
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-gpu")
+    browser = webdriver.Chrome(options=options)
     
     browser.get("https://windsor-cwiprod.motorolasolutions.com/cwi/tile")
     actions = ActionChains(browser)
