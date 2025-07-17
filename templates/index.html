@@ -3,7 +3,7 @@
 <head>
     <link rel= "stylesheet" type= "text/css" href= "{{url_for('static', filename='styles/style.css') }}">
     <meta charset="UTF-8" />
-    <title>Hello, World!</title>
+    <title>Active Transit 311 Tool</title>
 </head>
 <body>
     <h1>Activate Transit Windsor Essex</h1>
@@ -11,22 +11,22 @@
     <div class = "message-box">
         <form action="/submit" method="post">
             <h2> Tell us what went wrong </h3>
-            <p id="acc">Is this an accessibility issue impacting a person with a disability?</p>
-            <input type = "radio" name ="accessibility" id = "accessibility_y" value = "Yes">
-            <label class = "container" for = "accessibility_y">Yes</label>
-            <input type = "radio" name = "accessibility" id = "accessibility_n" value="No">
-            <label class = "container" for = "accessibility_n">No</label><br><br>
-            <label for = "route_num">Route Number:</label><br>
-            <select name = "Route Number" id = "route_num">
-                <option value=""> </option>
-                <option value="115">115</option>
-                <option value="305">305</option>
-                <option value="418X">418X</option>
-                <option value="518X">518X</option>
-                <option value="605 (Amherstburg)">605 (Amherstburg)</option>
-                <option value="Central 3">Central 3</option>
-                <option value="Crosstown 2">Crosstown 2</option>
-                <option value="Dougall 6">Dougall 6</option>
+                <p id="acc">Is this an accessibility issue impacting a person with a disability?</p>
+                <input type = "radio" name ="accessibility" id = "accessibility_y" value = "Yes">
+                <label class = "container" for = "accessibility_y">Yes</label>
+                <input type = "radio" name = "accessibility" id = "accessibility_n" value="No">
+                <label class = "container" for = "accessibility_n">No</label><br><br>
+                <label for = "route_num">Route Number:</label><br>
+                <select name = "Route Number" id = "route_num">
+                    <option value=""> </option>
+                    <option value="115">115</option>
+                    <option value="305">305</option>
+                    <option value="418X">418X</option>
+                    <option value="518X">518X</option>
+                    <option value="605 (Amherstburg)">605 (Amherstburg)</option>
+                    <option value="Central 3">Central 3</option>
+                    <option value="Crosstown 2">Crosstown 2</option>
+                    <option value="Dougall 6">Dougall 6</option>
                 <option value="25 (LaSalle)">25 (LaSalle)</option>
                 <option value="Lauzon 10">Lauzon 10</option>
                 <option value="LTW 42 (Leamington to Windsor)">LTW 42 (Leamington to Windsor)</option>
@@ -76,7 +76,8 @@
             <label for = "last_name">Last Name:</label><br>
             <input type = "text" id = "last_name" name = "last_name"><br>
             <input type = "submit" value = "Submit">
+            <p> This tool is in development. Errors may occur. </p>
         </div>
-        </form>
-    </body>
+    </form>
+</body>
 </html>

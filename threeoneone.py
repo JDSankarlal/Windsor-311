@@ -14,12 +14,14 @@ import logging
 
 def run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input, first_name_input, last_name_input):
     #Browser Application setup
-    options = Options()
-    options.add_argument("--headless")
-    browser = webdriver.Chrome(options=options)
+    #options = Options()
+    #options.add_argument("--headless")
+    browser = webdriver.Chrome()
+    #browser = webdriver.Chrome(options=options)
     browser.get("https://windsor-cwiprod.motorolasolutions.com/cwi/tile")
     actions = ActionChains(browser)
-    time.sleep(1)
+    
+    wait =  WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')))
     #Find and Select "Transit Windsor"
     service_type = browser.find_element(By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')
     service_type.click()
@@ -79,7 +81,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
         actions.send_keys(Keys.TAB)
 
     #Route Number
-    route_number = browser.find_element(By.ID, "mat-select-8")
+    route_number = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Route Number")]/ancestor::mat-form-field//mat-select')
     route_number.click()
     route_number_xpath = f'//span[@class="mat-option-text" and normalize-space(text())="{route_num}"]'
     route_number = browser.find_element(By.XPATH,route_number_xpath)
@@ -87,7 +89,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     actions.send_keys(Keys.TAB)
 
     #Route Direction
-    route_direction = browser.find_element(By.ID, "mat-select-value-11")
+    route_direction = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Route Direction")]/ancestor::mat-form-field//mat-select')
     route_direction.click()
     route_direction_xpath = f'//span[@class="mat-option-text" and normalize-space(text())="{route_dir}"]'
     route_direction = browser.find_element(By.XPATH, route_direction_xpath)
@@ -95,7 +97,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     actions.send_keys(Keys.TAB)   
 
     #StopID
-    stopID = browser.find_element(By.ID, "mat-input-2")
+    stopID = browser.find_element(By.XPATH,'//textarea[contains(@aria-label, "Stop ID")]')
     stopID.send_keys(stop_id)
     actions.send_keys(Keys.TAB)
 
@@ -130,7 +132,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     #Submit Name & Email
     last_name = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Last Name")]')
     actions.move_to_element(last_name).perform()
-    first_name.send_keys(last_name_input)
+    last_name.send_keys(last_name_input)
 
     time.sleep(5)
     print("Program Complete. The browser will close.")
