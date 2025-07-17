@@ -14,12 +14,14 @@ import logging
 
 def run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input, first_name_input, last_name_input):
     #Browser Application setup
-    #browser = webdriver.Chrome()
-    options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-gpu")
-    browser = webdriver.Chrome(options=options)
+    browser = webdriver.Chrome()
+    
+    #options = Options()
+    #options.add_argument("--headless")
+    #options.add_argument("--no-sandbox")
+    #options.add_argument("--disable-gpu")
+    #browser = webdriver.Chrome(options=options)
+    
     browser.get("https://windsor-cwiprod.motorolasolutions.com/cwi/tile")
     actions = ActionChains(browser)
     wait =  WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')))
@@ -32,7 +34,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     actions.send_keys(Keys.TAB)
 
     #user_location = "Oulette Ave @ Park St E."
-    location = browser.find_element(By.ID, "mat-input-0")
+    location = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')
     location.send_keys(user_location)
     time.sleep(1)
 
