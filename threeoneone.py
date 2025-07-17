@@ -66,7 +66,8 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     safe_click(browser, call_reason)
     print(" --- COMPLAINT SELECTED --- ", flush=True) 
     #Its doing something weird so we need to click the body of the DOM to close the complaint window and "spawn" the "Reason for complaint"
-    browser.find_element(By.XPATH, ("//body")).click() 
+    body = browser.find_element(By.XPATH, ("//body"))
+    body.click() 
     print(" --- BODY CLICK TO TRIGGER COMPLAINT TYPE --- ", flush=True)
     
     for attempt in range (3):
@@ -77,6 +78,8 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
             print ("Complaint Type not found. Blur and Retrying...Dumping screenshot...", flush=True)
             print(browser.get_screenshot_as_base64(), flush=True)
             browser.execute_script("document.activeElement.blur();")
+            print ("Attempting Escape...", flush=True)
+            body.send_keys(Keys.ESCAPE)
             time.sleep(1)
     else:
         raise Exception("Shit fucked")
