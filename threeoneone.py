@@ -73,6 +73,8 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     for attempt in range (3):
         try: 
             complaint_type_button = wait.until(EC.visibility_of_element_located((By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
+            print("Success! Dumping SC...", flush=True) 
+            print (browser.get_screenshot_as_base64(), flush=True)
             break
         except Exception as e:
             print ("Complaint Type not found. Blur and Retrying...Dumping screenshot...", flush=True)
@@ -180,6 +182,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     actions.move_to_element(last_name).perform()
     last_name.send_keys(last_name_input)
 
+    print(browser.get_screenshot_as_base64(), flush=True)
     time.sleep(5)
     print("Program Complete. The browser will close.", flush=True)
 
