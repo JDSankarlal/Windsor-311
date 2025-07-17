@@ -17,27 +17,37 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     #browser = webdriver.Chrome()
     
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
-    options.add_argument("--disable-gpu")
+    options.add_argument("-width=1920")
+    options.add_argument("-height=1080")
+
     browser = webdriver.Chrome(options=options)
     
+
     browser.get("https://windsor-cwiprod.motorolasolutions.com/cwi/tile")
     actions = ActionChains(browser)
-    wait =  WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')))
+    wait =  WebDriverWait(browser, 10)
+    service_type_wait = wait.until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')))
     #Find and Select "Transit Windsor"
     service_type = browser.find_element(By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')
     service_type.click()
-    service_type = browser.find_element(By.XPATH, "//*[@id='mat-option-35']/span")
-    service_type.click()
+    service_type_wait = wait.until(EC.presence_of_element_located((By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]')))
+    service_type = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]/ancestor::mat-option')
+    service_type.send_keys(Keys.ENTER)
+    print(" --- TRANSIT WINDSOR SELECTED ---")
     time.sleep(1)
     actions.send_keys(Keys.TAB)
 
     #user_location = "Oulette Ave @ Park St E."
     location = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')
+    lwait = wait.until(EC.presence_of_element_located((By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')))
+    actions.move_to_element(location).perform()
+    print(" --- LOCATION FOUND --- ")
+    location.click()
     location.send_keys(user_location)
     time.sleep(1)
-
+    print(" --- LOCATION SENT --- ")
 
     #Complaint
     call_reason = browser.find_element(By.XPATH, '//mat-label[contains(text(), "Call?")]/ancestor::mat-form-field//mat-select')
@@ -54,7 +64,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     actions.scroll_from_origin(scroll_origin,0,400)\
     .perform()
 
-    wait =  WebDriverWait(browser, 20).until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
+    complain_wait = wait.until(EC.presence_of_element_located((By.XPATH, '//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
     
     #Reason for Complaing
     complaint_reason_button = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')
@@ -85,11 +95,15 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
 
     #Route Number
     route_number = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Route Number")]/ancestor::mat-form-field//mat-select')
+    actions.move_to_element(route_number).perform()
+    rnumber_wait = wait.until(EC.element_to_be_clickable(route_number))
+    print ("--- ROUTE NUMBER CLICKABLE ---")
     route_number.click()
     route_number_xpath = f'//span[@class="mat-option-text" and normalize-space(text())="{route_num}"]'
     route_number = browser.find_element(By.XPATH,route_number_xpath)
     route_number.click()
     actions.send_keys(Keys.TAB)
+    print ("--- ROUTE NUMBER SENT ---")
 
     #Route Direction
     route_direction = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Route Direction")]/ancestor::mat-form-field//mat-select')
@@ -97,10 +111,14 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     route_direction_xpath = f'//span[@class="mat-option-text" and normalize-space(text())="{route_dir}"]'
     route_direction = browser.find_element(By.XPATH, route_direction_xpath)
     route_direction.click()
-    actions.send_keys(Keys.TAB)   
+    actions.send_keys(Keys.TAB)
+    print ("--- ROUTE DIRECTION SENT ---")   
 
     #StopID
     stopID = browser.find_element(By.XPATH,'//textarea[contains(@aria-label, "Stop ID")]')
+    actions.move_to_element(stopID)
+    stopID_parent = browser.find_element(By.XPATH,'//textarea[contains(@aria-label, "Stop ID")]/ancestor::mat-form-field')
+    print ("--- STOP ID FOUND ---")  
     stopID.send_keys(stop_id)
     actions.send_keys(Keys.TAB)
 
