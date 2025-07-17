@@ -73,8 +73,8 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     #browser.get_screenshot_as_file("screenshots/screenshot.png")
     #Reason for Complaing
     
+    complaint_reason_button = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')
     try:
-        complaint_reason_button = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')
         actions.move_to_element(complaint_reason_button).perform()
     except Exception as e:
         print (f'Locating button failed with {e}, manually scrolling.')
