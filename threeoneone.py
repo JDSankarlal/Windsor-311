@@ -27,43 +27,40 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
 
     browser.get("https://windsor-cwiprod.motorolasolutions.com/cwi/tile")
     actions = ActionChains(browser)
-    wait =  WebDriverWait(browser, 20)
+    wait =  WebDriverWait(browser, 30)
     service_type_wait = wait.until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')))
     #Find and Select "Transit Windsor"
     service_type = browser.find_element(By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')
     service_type.click()
     service_type_wait = wait.until(EC.presence_of_element_located((By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]')))
-    service_type = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]/ancestor::mat-option')
-    service_type.send_keys(Keys.ENTER)
+    service_type_field = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]/ancestor::mat-option')
+    service_type_field.send_keys(Keys.ENTER)
     print(" --- TRANSIT WINDSOR SELECTED ---", flush=True)
-    time.sleep(1)
     actions.send_keys(Keys.TAB)
 
     #user_location = "Oulette Ave @ Park St E."
     location = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')
-    lwait = wait.until(EC.presence_of_element_located((By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')))
-    actions.move_to_element(location).perform()
+    browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", location)
+    #lwait = wait.until(EC.element_to_be_clickable((By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')))
     print(" --- LOCATION FOUND --- ", flush=True)
+    time.sleep(1)
     location.click()
     location.send_keys(user_location)
-    time.sleep(1)
     print(" --- LOCATION SENT --- ", flush=True)
 
     #Complaint
     call_reason = browser.find_element(By.XPATH, '//mat-label[contains(text(), "Call?")]/ancestor::mat-form-field//mat-select')
     actions.move_to_element(call_reason).perform()
     call_reason.click()
-    time.sleep(1)
-    call_reason = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Complaint"]')
+    browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", call_reason)
+    time.sleep(0.5)
     call_reason.click()
+    print(" --- COMPLAINT SELECTED --- ", flush=True)
     
     #Its doing something weird so we need to click the body of the DOM to close the complaint window and "spawn" the "Reason for complaint"
     browser.find_element(By.XPATH, ("//body")).click()
-    #Do a big scroll
-    scroll_origin = ScrollOrigin.from_element(location,0,-50)
-    actions.scroll_from_origin(scroll_origin,0,400)\
-    .perform()
-
+    print(" --- body selected --- ", flush=True)
+ 
     complain_wait = wait.until(EC.presence_of_element_located((By.XPATH, '//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
     
     #Reason for Complaing
