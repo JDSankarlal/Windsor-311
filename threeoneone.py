@@ -72,15 +72,16 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     time.sleep(1)
     #browser.get_screenshot_as_file("screenshots/screenshot.png")
     #Reason for Complaing
-    complain_wait = wait.until(EC.element_to_be_clickable((By.XPATH, '//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
+    
     complaint_reason_button = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')
     actions.move_to_element(complaint_reason_button).perform()
     safe_click(browser, complaint_reason_button)
+    #complain_wait = wait.until(EC.element_to_be_clickable((By.XPATH, '//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
     time.sleep(1)
     complaint_reason = browser.find_element(By.XPATH, f'//span[@class="mat-option-text" and normalize-space(text())="{complaint_reason}"]')
     safe_click(browser, complaint_reason_button)
     actions.send_keys(Keys.ESCAPE)
-    time.sleep
+    time.sleep(1)
 
     #Accessibility Issue
     accessibility_binary = browser.find_element(By.XPATH, '//mat-label[contains(text(), "accessibility")]/ancestor::mat-form-field//mat-select')
