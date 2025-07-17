@@ -27,7 +27,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
 
     browser.get("https://windsor-cwiprod.motorolasolutions.com/cwi/tile")
     actions = ActionChains(browser)
-    wait =  WebDriverWait(browser, 10)
+    wait =  WebDriverWait(browser, 20)
     service_type_wait = wait.until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')))
     #Find and Select "Transit Windsor"
     service_type = browser.find_element(By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')
@@ -35,7 +35,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     service_type_wait = wait.until(EC.presence_of_element_located((By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]')))
     service_type = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]/ancestor::mat-option')
     service_type.send_keys(Keys.ENTER)
-    print(" --- TRANSIT WINDSOR SELECTED ---")
+    print(" --- TRANSIT WINDSOR SELECTED ---", flush=True)
     time.sleep(1)
     actions.send_keys(Keys.TAB)
 
@@ -43,11 +43,11 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     location = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')
     lwait = wait.until(EC.presence_of_element_located((By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')))
     actions.move_to_element(location).perform()
-    print(" --- LOCATION FOUND --- ")
+    print(" --- LOCATION FOUND --- ", flush=True)
     location.click()
     location.send_keys(user_location)
     time.sleep(1)
-    print(" --- LOCATION SENT --- ")
+    print(" --- LOCATION SENT --- ", flush=True)
 
     #Complaint
     call_reason = browser.find_element(By.XPATH, '//mat-label[contains(text(), "Call?")]/ancestor::mat-form-field//mat-select')
@@ -97,13 +97,13 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     route_number = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Route Number")]/ancestor::mat-form-field//mat-select')
     actions.move_to_element(route_number).perform()
     rnumber_wait = wait.until(EC.element_to_be_clickable(route_number))
-    print ("--- ROUTE NUMBER CLICKABLE ---")
+    print ("--- ROUTE NUMBER CLICKABLE ---", flush=True)
     route_number.click()
     route_number_xpath = f'//span[@class="mat-option-text" and normalize-space(text())="{route_num}"]'
     route_number = browser.find_element(By.XPATH,route_number_xpath)
     route_number.click()
     actions.send_keys(Keys.TAB)
-    print ("--- ROUTE NUMBER SENT ---")
+    print ("--- ROUTE NUMBER SENT ---", flush=True)
 
     #Route Direction
     route_direction = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Route Direction")]/ancestor::mat-form-field//mat-select')
@@ -112,13 +112,13 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     route_direction = browser.find_element(By.XPATH, route_direction_xpath)
     route_direction.click()
     actions.send_keys(Keys.TAB)
-    print ("--- ROUTE DIRECTION SENT ---")   
+    print ("--- ROUTE DIRECTION SENT ---", flush=True)   
 
     #StopID
     stopID = browser.find_element(By.XPATH,'//textarea[contains(@aria-label, "Stop ID")]')
     actions.move_to_element(stopID)
     stopID_parent = browser.find_element(By.XPATH,'//textarea[contains(@aria-label, "Stop ID")]/ancestor::mat-form-field')
-    print ("--- STOP ID FOUND ---")  
+    print ("--- STOP ID FOUND ---", flush=True)  
     stopID.send_keys(stop_id)
     actions.send_keys(Keys.TAB)
 
@@ -156,5 +156,5 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     last_name.send_keys(last_name_input)
 
     time.sleep(5)
-    print("Program Complete. The browser will close.")
+    print("Program Complete. The browser will close.", flush=True)
 
