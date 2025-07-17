@@ -8,16 +8,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
+from selenium.webdriver.chrome.options import Options
 import logging
-
-
 
 def run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input, first_name_input, last_name_input):
     #Browser Application setup
-    browser = webdriver.Chrome()
-    browser.maximize_window()
+    options = Options()
+    options.add_argument("--headless")
+    browser = webdriver.Chrome(options=options)
     browser.get("https://windsor-cwiprod.motorolasolutions.com/cwi/tile")
     actions = ActionChains(browser)
     time.sleep(1)
