@@ -65,17 +65,22 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     call_reason = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Complaint"]')
     safe_click(browser, call_reason)
     print(" --- COMPLAINT SELECTED --- ", flush=True) 
-    browser.get_screenshot_as_file("screenshots/screenshot.png") 
     #Its doing something weird so we need to click the body of the DOM to close the complaint window and "spawn" the "Reason for complaint"
     browser.find_element(By.XPATH, ("//body")).click() 
     print(" --- body selected --- ", flush=True)
-    time.sleep(1)
+    time.sleep(3)
+    browser.get_screenshot_as_file("screenshots/screenshot.png") 
     #browser.get_screenshot_as_file("screenshots/screenshot.png")
     #Reason for Complaing
     
-    complaint_reason_button = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')
-    actions.move_to_element(complaint_reason_button).perform()
-    safe_click(browser, complaint_reason_button)
+    try:
+        complaint_reason_button = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')
+        actions.move_to_element(complaint_reason_button).perform()
+    except Exception as e:
+        print (f'Locating button failed with {e}, manually scrolling.')
+        browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", complaint_reason_button)
+        safe_click(browser, complaint_reason_button)
+    
     #complain_wait = wait.until(EC.element_to_be_clickable((By.XPATH, '//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
     time.sleep(1)
     complaint_reason = browser.find_element(By.XPATH, f'//span[@class="mat-option-text" and normalize-space(text())="{complaint_reason}"]')
