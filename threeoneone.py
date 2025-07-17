@@ -74,8 +74,8 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
             complaint_type_button = wait.until(EC.visibility_of_element_located((By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
             break
         except Exception as e:
-            browser.get_screenshot_as_file("screenshots/screenshot.png") 
-            print ("Complaint Type not found. Blur and Retrying...", flush=True)
+            print ("Complaint Type not found. Blur and Retrying...Dumping screenshot...", flush=True)
+            print(browser.get_screenshot_as_base64(), flush=True)
             browser.execute_script("document.activeElement.blur();")
             time.sleep(1)
     else:
