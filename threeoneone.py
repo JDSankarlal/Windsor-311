@@ -52,7 +52,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     #lwait = wait.until(EC.element_to_be_clickable((By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')))
     print(" --- LOCATION FOUND --- ", flush=True)
     time.sleep(1)
-    location.click()
+    safe_click(browser, location)
     location.send_keys(user_location)
     print(" --- LOCATION SENT --- ", flush=True)
 
