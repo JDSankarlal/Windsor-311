@@ -52,7 +52,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", location)
     #lwait = wait.until(EC.element_to_be_clickable((By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')))
     print(" --- LOCATION FOUND --- ", flush=True)
-    time.sleep(1)
+    
     safe_click(browser, location)
     location.send_keys(user_location)
     print(" --- LOCATION SENT --- ", flush=True)
@@ -62,7 +62,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     actions.move_to_element(call_reason).perform()
     safe_click(browser, call_reason)
     browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", call_reason)
-    time.sleep(0.5)
+    #time.sleep(0.5)
     call_reason = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Complaint"]')
     safe_click(browser, call_reason)
     print(" --- COMPLAINT SELECTED --- ", flush=True) 
@@ -83,7 +83,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
             browser.execute_script("document.activeElement.blur();")
             print ("Attempting Escape...", flush=True)
             body.send_keys(Keys.ESCAPE)
-            time.sleep(1)
+            #time.sleep(1)
     else:
         raise Exception("Shit fucked")
     
@@ -97,11 +97,11 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     safe_click(browser, complaint_type_button)
     
     #complain_wait = wait.until(EC.element_to_be_clickable((By.XPATH, '//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
-    time.sleep(1)
+    #time.sleep(1)
     complaint_reason = browser.find_element(By.XPATH, f'//span[@class="mat-option-text" and normalize-space(text())="{complaint_reason}"]')
     safe_click(browser, complaint_reason)
     actions.send_keys(Keys.ESCAPE)
-    time.sleep(1)
+    #time.sleep(1)
 
     #Accessibility Issue
     accessibility_binary = browser.find_element(By.XPATH, '//mat-label[contains(text(), "accessibility")]/ancestor::mat-form-field//mat-select')
@@ -110,7 +110,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     safe_click(browser, accessibility_binary)
     #acc = WebDriverWait(browser,10).until(EC.presence_of_element_located(By.XPATH, "//*[@id='mat-option-44']/span"))
 
-    time.sleep(1)
+    #time.sleep(1)
     if accessibility_input == "Yes":
         accessibility_binary = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Yes"]')
         accessibility_binary.click()
