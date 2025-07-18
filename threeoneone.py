@@ -25,6 +25,7 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     
     options = Options()
     options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("-width=1920")
     options.add_argument("-height=1080")

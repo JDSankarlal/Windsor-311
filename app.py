@@ -26,7 +26,7 @@ def submit():
         threeOneOne.run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input, first_name_input, last_name_input)
         return render_template("submit.html", route_num = route_num, first_name_input = first_name_input)
     else:
-        home()
+        return home()
 
 
 
