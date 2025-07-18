@@ -18,11 +18,16 @@ def safe_click(browser, element):
     except Exception as e:
        print(f"Selenium click failed with {e}, falling back to JS Click", flush=True)
        browser.execute_script("arguments[0].click();", element)
+
+def log_time (msg, start_time):
+    now = time.time()
+    print(f'{msg}: {now - start_time:.2f} seconds', flush=True)
       
 def run_selenium(user_location, complaint_reason, accessibility_input, route_num, route_dir, stop_id, incident_date_input, incident_time_input, first_name_input, last_name_input):
+    start_time = time.time()
     #Browser Application setup
     #browser = webdriver.Chrome()
-    
+    log_time("Application Start", start_time)
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
@@ -30,13 +35,14 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     options.add_argument("-width=1920")
     options.add_argument("-height=1080")
     #options.add_argument("--screenshot")
-
     browser = webdriver.Chrome(options=options)
     
 
     browser.get("https://windsor-cwiprod.motorolasolutions.com/cwi/tile")
     actions = ActionChains(browser)
     wait =  WebDriverWait(browser, 30)
+    log_time("Browser Launch", start_time)
+
     service_type_wait = wait.until(EC.visibility_of_element_located((By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')))
     #Find and Select "Transit Windsor"
     service_type = browser.find_element(By.XPATH, '//mat-label[contains(text(), "service")]/ancestor::mat-form-field//mat-select')
@@ -44,18 +50,19 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     service_type_wait = wait.until(EC.presence_of_element_located((By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]')))
     service_type_field = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Transit Windsor"]/ancestor::mat-option')
     service_type_field.send_keys(Keys.ENTER)
-    print(" --- TRANSIT WINDSOR SELECTED ---", flush=True)
+    log_time(" --- TRANSIT WINDSOR SELECTED ---", start_time)
     actions.send_keys(Keys.TAB)
+    
 
     #user_location = "Oulette Ave @ Park St E."
     location = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')
     browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", location)
     #lwait = wait.until(EC.element_to_be_clickable((By.XPATH, '//input[contains(@data-placeholder, "Service Location")]')))
-    print(" --- LOCATION FOUND --- ", flush=True)
+    log_time(" --- LOCATION FOUND --- ", start_time)
     
     safe_click(browser, location)
     location.send_keys(user_location)
-    print(" --- LOCATION SENT --- ", flush=True)
+    log_time(" --- LOCATION SENT --- ", start_time)
 
     #Complaint
     call_reason = browser.find_element(By.XPATH, '//mat-label[contains(text(), "Call?")]/ancestor::mat-form-field//mat-select')
@@ -65,21 +72,19 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     #time.sleep(0.5)
     call_reason = browser.find_element(By.XPATH, '//span[@class="mat-option-text" and normalize-space(text())="Complaint"]')
     safe_click(browser, call_reason)
-    print(" --- COMPLAINT SELECTED --- ", flush=True) 
+    log_time(" --- COMPLAINT SELECTED --- ", start_time) 
     #Its doing something weird so we need to click the body of the DOM to close the complaint window and "spawn" the "Reason for complaint"
     body = browser.find_element(By.XPATH, ("//body"))
     body.click() 
-    print(" --- BODY CLICK TO TRIGGER COMPLAINT TYPE --- ", flush=True)
+    log_time(" --- BODY CLICK TO TRIGGER COMPLAINT TYPE --- ", start_time)
     
     for attempt in range (3):
         try: 
             complaint_type_button = wait.until(EC.visibility_of_element_located((By.XPATH,'//mat-label[contains(text(), "Complaint Type:")]/ancestor::mat-form-field//mat-select')))
-            print("Success! Dumping SC...", flush=True) 
-            print (browser.get_screenshot_as_base64(), flush=True)
             break
         except Exception as e:
             print ("Complaint Type not found. Blur and Retrying...Dumping screenshot...", flush=True)
-            print(browser.get_screenshot_as_base64(), flush=True)
+            
             browser.execute_script("document.activeElement.blur();")
             print ("Attempting Escape...", flush=True)
             body.send_keys(Keys.ESCAPE)
@@ -124,13 +129,13 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     route_number = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Route Number")]/ancestor::mat-form-field//mat-select')
     actions.move_to_element(route_number).perform()
     rnumber_wait = wait.until(EC.element_to_be_clickable(route_number))
-    print ("--- ROUTE NUMBER CLICKABLE ---", flush=True)
+    log_time ("--- ROUTE NUMBER CLICKABLE ---", start_time)
     safe_click(browser, route_number)
     route_number_xpath = f'//span[@class="mat-option-text" and normalize-space(text())="{route_num}"]'
     route_number = browser.find_element(By.XPATH,route_number_xpath)
     safe_click(browser, route_number)
     actions.send_keys(Keys.TAB)
-    print ("--- ROUTE NUMBER SENT ---", flush=True)
+    log_time ("--- ROUTE NUMBER SENT ---", start_time)
 
     #Route Direction
     route_direction = browser.find_element(By.XPATH,'//mat-label[contains(text(), "Route Direction")]/ancestor::mat-form-field//mat-select')
@@ -139,13 +144,13 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     route_direction = browser.find_element(By.XPATH, route_direction_xpath)
     safe_click(browser, route_direction)
     actions.send_keys(Keys.TAB)
-    print ("--- ROUTE DIRECTION SENT ---", flush=True)   
+    log_time ("--- ROUTE DIRECTION SENT ---", start_time)   
 
     #StopID
     stopID = browser.find_element(By.XPATH,'//textarea[contains(@aria-label, "Stop ID")]')
     actions.move_to_element(stopID)
     stopID_parent = browser.find_element(By.XPATH,'//textarea[contains(@aria-label, "Stop ID")]/ancestor::mat-form-field')
-    print ("--- STOP ID FOUND ---", flush=True)  
+    log_time ("--- STOP ID FOUND ---", start_time)  
     stopID.send_keys(stop_id)
     actions.send_keys(Keys.TAB)
 
@@ -182,8 +187,5 @@ def run_selenium(user_location, complaint_reason, accessibility_input, route_num
     last_name = browser.find_element(By.XPATH, '//input[contains(@data-placeholder, "Last Name")]')
     actions.move_to_element(last_name).perform()
     last_name.send_keys(last_name_input)
-
-    print(browser.get_screenshot_as_base64(), flush=True)
-    time.sleep(5)
-    print("Program Complete. The browser will close.", flush=True)
+    print("Program Complete" , flush=True)
 
